@@ -1,7 +1,22 @@
-Library/*
-Temp/*
-*.csproj
-*.sln
-*.pidb
+# =============== #
+# Unity generated #
+# =============== #
+Library/
+Temp/
+Obj/
+Build/
+UnityGenerated/
+
+# ===================================== #
+# Visual Studio / MonoDevelop generated #
+# ===================================== #
+ExportedObj/
+*.svd
 *.userprefs
+*.csproj
+*.pidb
+*.suo
+*.sln
+*.user
 *.unityproj
+*.booproj

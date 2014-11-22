@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
@@ -12,7 +12,14 @@ public class NetworkingDemo : MonoBehaviour {
 
     private string ipAddress = "";
     private int port = 0;
-    private bool connected = false;
+    public static bool connected = false;
+
+    void Start()
+    {
+        ipText.text = "127.0.0.1";
+        portText.text = "7310";
+
+    }
 
     void Update()
     {
@@ -98,7 +105,6 @@ public class NetworkingDemo : MonoBehaviour {
 
     public void disconnectFromServer()
     {
-        Network.Disconnect();
         if (Network.isServer)
         {
             Debug.Log("Server successfully closed");
@@ -107,6 +113,7 @@ public class NetworkingDemo : MonoBehaviour {
         {
             Debug.Log("Disconnected from server");
         }
+        Network.Disconnect();
     }
 
     void OnDisconnectedFromServer()

@@ -10,7 +10,7 @@ public class CreateCubes : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (NetworkingDemo.connected && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             cubeList.Add(Network.Instantiate(cubePrefab, Vector3.zero, Quaternion.identity, 0) as GameObject);
         }

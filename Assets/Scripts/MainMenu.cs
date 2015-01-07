@@ -4,10 +4,10 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour {
 
-    public Button networkingButton;
+    public Button serverBrowserButton;
 
-    public void loadNetworkingScene()
+    public void loadServerBrowser()
     {
-        Application.LoadLevel("NetworkingDemo");
+        Application.LoadLevel("ServerBrowser");
     }
 }

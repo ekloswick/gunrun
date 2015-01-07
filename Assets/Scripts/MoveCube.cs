@@ -10,7 +10,7 @@ public class MoveCube : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (NetworkingDemo.connected && networkView.isMine)
+        if (networkView.isMine)
         {
             if (Input.GetKey(KeyCode.Q))
             {

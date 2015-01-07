@@ -4,120 +4,136 @@ using UnityEngine.UI;
 
 public class NetworkingDemo : MonoBehaviour {
 
-    public Text ipText;
+    //public Text ipText;
     public Text portText;
-    public Text connectionsText;
+    //public Text connectionsText;
 
     public Button disconnectButton;
 
-    private string ipAddress = "";
-    private int port = 0;
-    public static bool connected = false;
+    public GameObject serverListEntryPrefab;
+    public GameObject serverListPanel;
+
+    private string typeName = "TypeEliKloswick";
+    private string gameName = "MyGameName";
+
+    private int portNumber;
+
+    private HostData[] serverList;
+    private ArrayList serverListUIPrefabs;
+    private int playerCount;
+
+    // default Unity functions
 
     void Start()
     {
-        ipText.text = "127.0.0.1";
-        portText.text = "7310";
+        //MasterServer.ipAddress = "127.0.0.1";
 
+        serverListUIPrefabs = new ArrayList();
     }
 
     void Update()
     {
-        if (connected)
+        if (!Network.isClient && !Network.isServer)
         {
-            connectionsText.text = "Connections: " + Network.connections.Length.ToString();
-            disconnectButton.interactable = true;
-        }
-        else
-        {
-            connectionsText.text = "Not connected";
             disconnectButton.interactable = false;
         }
-    }
-
-    public void hostServer()
-    {
-        if (!connected)
-        {
-            if (!string.IsNullOrEmpty(portText.text))
-            {
-                int.TryParse(portText.text, out port);
-                Network.InitializeServer(4, port, true);
-                Debug.Log("Listening on port " + port);
-            }
-            else
-            {
-                Debug.Log("Invalid port number");
-            }
-
-        }
         else
         {
-            Debug.Log("Already connected to a server");
+            disconnectButton.interactable = true;
         }
     }
 
-    public void connectToServer()
-    {
-        if (!connected)
-        {
-            ipAddress = ipText.text;
-            int.TryParse(portText.text, out port);
+    // custom functions
 
-            // try to connect
-            if (!string.IsNullOrEmpty(ipAddress) && !string.IsNullOrEmpty(port.ToString()))
-            {
-                Network.Connect(ipAddress, port);
-            }
-            else
-            {
-                Debug.Log("Connect error: invalid IP address or port");
-            }
-        }
-        else
-        {
-            Debug.Log("Already connected to a server");
-        }
-        
+    public void startServer()
+    {
+        int.TryParse(portText.text, out portNumber);
+        Network.InitializeServer(10, portNumber, !Network.HavePublicAddress());
+        MasterServer.RegisterHost(typeName, gameName);
+        playerCount = 0;
     }
 
-    void OnServerInitialized()
+    public void stopServer()
     {
-        Debug.Log("Hosting on 127.0.0.1, listening on port " + port);
-        connected = true;
+        if (Network.isServer)
+        {
+            MasterServer.UnregisterHost();
+        }
+
+        Network.Disconnect();
+    }
+
+    public void refreshServerList()
+    {
+        Debug.Log("Refreshing server list");
+        MasterServer.RequestHostList(typeName);
+    }
+
+    public void joinServer(HostData hData)
+    {
+        Debug.Log("Joining server");
+        Network.Connect(hData);
+    }
+
+
+    // Overridden functions
+
+    void OnMasterServerEvent(MasterServerEvent msEvent)
+    {
+        Debug.Log("MS Event received: " + msEvent);
+        if (msEvent == MasterServerEvent.HostListReceived)
+        {
+            // clean up previous server entries
+            foreach (GameObject obj in serverListUIPrefabs)
+            {
+                Destroy(obj);
+            }
+
+            serverListUIPrefabs.Clear();
+
+            serverList = MasterServer.PollHostList();
+
+            Debug.Log(serverList.Length + " servers returned");
+
+            for (int i = 0; i < serverList.Length; i += 1)
+            {
+                // getting around closures
+                var iteration = i;
+                var data = serverList[iteration];
+
+                // create server entry and position it to the serverListPanel
+                GameObject obj = Instantiate(serverListEntryPrefab) as GameObject;
+                obj.transform.SetParent(serverListPanel.transform, false);
+                obj.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, -40 - iteration * 80);
+
+                // set up connect button function
+                obj.GetComponentInChildren<Button>().onClick.AddListener(() => joinServer(data));
+
+                // add to list for easy discarding later
+                serverListUIPrefabs.Add(obj);
+            }
+        }
     }
 
     void OnConnectedToServer()
     {
-        Debug.Log("Connected to " + ipAddress + ":" + port);
-        connected = true;
+        Debug.Log("Server joined");
     }
 
-    void OnPlayerConnected()
+    void OnDisconnectFromServer()
     {
-        Debug.Log("Player has connected");
+        Debug.Log("Disconnected from server");
     }
 
-    void OnPlayerDisconnected()
+    void OnPlayerConnected(NetworkPlayer player)
     {
-        Debug.Log("Player has disconnected");
+        playerCount += 1;
+        Debug.Log("There are now " + playerCount + " players connected");
     }
 
-    public void disconnectFromServer()
+    void OnPlayerDisconnected(NetworkPlayer player)
     {
-        if (Network.isServer)
-        {
-            Debug.Log("Server successfully closed");
-        }
-        else
-        {
-            Debug.Log("Disconnected from server");
-        }
-        Network.Disconnect();
-    }
-
-    void OnDisconnectedFromServer()
-    {
-        connected = false;
+        playerCount -= 1;
+        Debug.Log("There are now " + playerCount + " players connected");
     }
 }

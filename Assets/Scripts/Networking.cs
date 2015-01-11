@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class NetworkingDemo : MonoBehaviour {
+public class Networking : MonoBehaviour {
 
     //public Text ipText;
     public Text portText;
@@ -12,9 +12,11 @@ public class NetworkingDemo : MonoBehaviour {
 
     public GameObject serverListEntryPrefab;
     public GameObject serverListPanel;
+    public GameObject playerPrefab;
 
     private string typeName = "TypeEliKloswick";
     private string gameName = "MyGameName";
+    private GameObject canvasUIObj;
 
     private int portNumber;
 
@@ -28,11 +30,14 @@ public class NetworkingDemo : MonoBehaviour {
     {
         //MasterServer.ipAddress = "127.0.0.1";
 
+        canvasUIObj = GameObject.Find("Canvas");
+
         serverListUIPrefabs = new ArrayList();
     }
 
     void Update()
     {
+        // enables/disables disconnect button
         if (!Network.isClient && !Network.isServer)
         {
             disconnectButton.interactable = false;
@@ -41,6 +46,19 @@ public class NetworkingDemo : MonoBehaviour {
         {
             disconnectButton.interactable = true;
         }
+
+        // shows/hides server browser
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (canvasUIObj.activeSelf == false)
+            {
+                canvasUIObj.SetActive(true);
+            }
+            else
+            {
+                canvasUIObj.SetActive(false);
+            }
+        }
     }
 
     // custom functions
@@ -48,7 +66,7 @@ public class NetworkingDemo : MonoBehaviour {
     public void startServer()
     {
         int.TryParse(portText.text, out portNumber);
-        Network.InitializeServer(10, portNumber, !Network.HavePublicAddress());
+        Network.InitializeServer(1, portNumber, !Network.HavePublicAddress());
         MasterServer.RegisterHost(typeName, gameName);
         playerCount = 0;
     }
@@ -58,6 +76,11 @@ public class NetworkingDemo : MonoBehaviour {
         if (Network.isServer)
         {
             MasterServer.UnregisterHost();
+        }
+
+        foreach (GameObject obj in GameObject.FindGameObjectsWithTag("Test"))
+        {
+            Destroy(obj);
         }
 
         Network.Disconnect();
@@ -75,8 +98,46 @@ public class NetworkingDemo : MonoBehaviour {
         Network.Connect(hData);
     }
 
+    public void spawnPlayer()
+    {
+        Network.Instantiate(playerPrefab, new Vector3(0f, 3f, 0f), Quaternion.identity, 0);
+    }
 
-    // Overridden functions
+    // Overridden/Implemented functions
+
+    void OnServerInitialized()
+    {
+        Application.LoadLevelAdditive("TestFloor");
+        spawnPlayer();
+    }
+
+    void OnConnectedToServer()
+    {
+        Debug.Log("Server joined");
+
+        Application.LoadLevelAdditive("TestFloor");
+        spawnPlayer();
+    }
+
+    void OnDisconnectFromServer()
+    {
+        Debug.Log("Disconnected from server");
+    }
+
+    void OnPlayerConnected(NetworkPlayer player)
+    {
+        playerCount += 1;
+        Debug.Log("There are now " + playerCount + " players connected");
+    }
+
+    void OnPlayerDisconnected(NetworkPlayer player)
+    {
+        playerCount -= 1;
+        Debug.Log("There are now " + playerCount + " players connected");
+
+        Network.RemoveRPCs(player);
+        Network.DestroyPlayerObjects(player);
+    }
 
     void OnMasterServerEvent(MasterServerEvent msEvent)
     {
@@ -113,27 +174,5 @@ public class NetworkingDemo : MonoBehaviour {
                 serverListUIPrefabs.Add(obj);
             }
         }
-    }
-
-    void OnConnectedToServer()
-    {
-        Debug.Log("Server joined");
-    }
-
-    void OnDisconnectFromServer()
-    {
-        Debug.Log("Disconnected from server");
-    }
-
-    void OnPlayerConnected(NetworkPlayer player)
-    {
-        playerCount += 1;
-        Debug.Log("There are now " + playerCount + " players connected");
-    }
-
-    void OnPlayerDisconnected(NetworkPlayer player)
-    {
-        playerCount -= 1;
-        Debug.Log("There are now " + playerCount + " players connected");
     }
 }

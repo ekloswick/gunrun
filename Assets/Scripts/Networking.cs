@@ -14,8 +14,8 @@ public class Networking : MonoBehaviour {
     public GameObject serverListPanel;
     public GameObject playerPrefab;
 
-    private string typeName = "TypeEliKloswick";
-    private string gameName = "MyGameName";
+    private string typeName = "TypeGunRun";
+    private string gameName = "GunRunGameName";
     private GameObject canvasUIObj;
 
     private int portNumber;
@@ -30,7 +30,7 @@ public class Networking : MonoBehaviour {
     {
         //MasterServer.ipAddress = "127.0.0.1";
 
-        canvasUIObj = GameObject.Find("Canvas");
+        canvasUIObj = GameObject.FindGameObjectsWithTag("Canvas")[0];
 
         serverListUIPrefabs = new ArrayList();
     }

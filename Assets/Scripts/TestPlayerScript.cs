@@ -27,9 +27,9 @@ public class TestPlayerScript : MonoBehaviour {
 
 
 	// Use this for initialization
-	void Start () {
-		playerColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-		renderer.material.color = playerColor;
+	void Start ()
+	{
+		ChangeColorTo(new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
 	}
 
     void Update()
@@ -37,10 +37,7 @@ public class TestPlayerScript : MonoBehaviour {
         if (playerNetworkView.isMine)
         {
             inputMovement();
-
-            /* RPC test function
-            inputColorChange();
-            */
+            inputColor();
         }
         else
         {
@@ -84,22 +81,18 @@ public class TestPlayerScript : MonoBehaviour {
 		positionCamera(mouseWorldPoint);
     }
 
+    void inputColor()
+    {
+    	Color color = renderer.material.color;
+    	ChangeColorTo(new Vector3(color.r, color.g, color.b));
+    }
+
     private void syncMovement()
     {
         syncTime += Time.deltaTime;
         rigidbody.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
         transform.rotation = Quaternion.Slerp(transform.rotation, syncRotation, syncTime / syncDelay);
     }
-
-	/* RPC test function
-    private void inputColorChange()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ChangeColorTo(new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
-        }
-    }
-	*/
 
 	void pointToCursor(Vector3 mousePoint)
 	{
@@ -169,6 +162,8 @@ public class TestPlayerScript : MonoBehaviour {
     [RPC]
     void ChangeColorTo(Vector3 color)
     {
+    	renderer.material.color = new Color(color.x, color.y, color.z);
+
         if (networkView.isMine)
         {
             networkView.RPC("ChangeColorTo", RPCMode.OthersBuffered, color);

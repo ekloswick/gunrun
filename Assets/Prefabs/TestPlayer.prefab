@@ -14,6 +14,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 148: {fileID: 14800000}
   - 54: {fileID: 5400000}
+  - 114: {fileID: 11400002}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Test
@@ -73,7 +74,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!65 &6500000
 BoxCollider:
@@ -99,7 +100,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNetworkView: {fileID: 14800000}
-  speed: 10
+  speed: 8
+  playerColor: {r: 0, g: 0, b: 0, a: 0}
+  hitpoints: 10
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb90abfd3ac4184094d252e4450b093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRotateSpeed: 10
+  cameraMoveSpeed: .100000001
+  cameraHeightModifier: .5
+  cameraBaseHeight: 6
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1

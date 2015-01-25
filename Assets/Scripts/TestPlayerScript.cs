@@ -4,17 +4,22 @@ using System.Collections;
 public class TestPlayerScript : MonoBehaviour {
 
     public NetworkView playerNetworkView;
-    public float speed = 10f;
+    public float speed = 8f;
+	public Color playerColor;
+	public int hitpoints = 10;
 
     private float syncDelay = 0f;
     private float syncTime = 0f;
     private float lastSyncTime = 0f;
     private Vector3 syncStartPosition = Vector3.zero;
     private Vector3 syncEndPosition = Vector3.zero;
+	private Color colorHit = Color.red;
+
 
 	// Use this for initialization
 	void Start () {
-	
+		playerColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+		renderer.material.color = playerColor;
 	}
 
     void Update()
@@ -22,7 +27,10 @@ public class TestPlayerScript : MonoBehaviour {
         if (playerNetworkView.isMine)
         {
             inputMovement();
+
+            /* RPC test function
             inputColorChange();
+            */
         }
         else
         {
@@ -51,6 +59,7 @@ public class TestPlayerScript : MonoBehaviour {
         rigidbody.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
     }
 
+	/* RPC test function
     private void inputColorChange()
     {
         if (Input.GetKeyDown(KeyCode.R))
@@ -58,6 +67,7 @@ public class TestPlayerScript : MonoBehaviour {
             ChangeColorTo(new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
         }
     }
+	*/
 
     // Overridden/Impelemented functions
 
@@ -92,12 +102,21 @@ public class TestPlayerScript : MonoBehaviour {
     [RPC]
     void ChangeColorTo(Vector3 color)
     {
-        renderer.material.color = new Color(color.x, color.y, color.z);
-
         if (networkView.isMine)
         {
             networkView.RPC("ChangeColorTo", RPCMode.OthersBuffered, color);
         }
     }
 
+	[RPC]
+	void triggerHit(int damage)
+	{
+		hitpoints -= damage;
+		renderer.material.color = Color.Lerp(colorHit, playerColor, 0.5f);
+
+		if (networkView.isMine)
+		{
+			networkView.RPC("triggerHit", RPCMode.Others, damage);
+		}
+	}
 }

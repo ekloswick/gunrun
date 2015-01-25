@@ -8,11 +8,21 @@ public class TestPlayerScript : MonoBehaviour {
 	public Color playerColor;
 	public int hitpoints = 10;
 
+	public float playerRotateSpeed = 10.0f;
+	public float cameraMoveSpeed = 0.01f;
+	public float cameraHeightModifier = 0.5f;
+	public float cameraBaseHeight = 6.0f;
+
+	private Vector3 mousePosition;
+
     private float syncDelay = 0f;
     private float syncTime = 0f;
     private float lastSyncTime = 0f;
     private Vector3 syncStartPosition = Vector3.zero;
     private Vector3 syncEndPosition = Vector3.zero;
+    private Quaternion syncRotation = Quaternion.identity;
+    //private Quaternion syncStartRotation = Quaternion.identity;
+    //private Quaternion syncEndRotation = Quaternion.identity;
 	private Color colorHit = Color.red;
 
 
@@ -38,6 +48,16 @@ public class TestPlayerScript : MonoBehaviour {
         }
     }
 
+	// LateUpdate is called after Update. Happens just before rendering (lowers lag by ~1 frame)
+
+	void LateUpdate ()
+	{
+		if (playerNetworkView.isMine)
+		{
+			inputMouse();
+		}
+	}
+
     void inputMovement()
     {
         if (Input.GetKey(KeyCode.W))
@@ -53,10 +73,22 @@ public class TestPlayerScript : MonoBehaviour {
             rigidbody.MovePosition(rigidbody.position - Vector3.right * speed * Time.deltaTime);
     }
 
+    void inputMouse()
+    {
+    	// Acquire mouse position in world
+		var mousePos = Input.mousePosition;
+		mousePos.z = 15;
+		Vector3 mouseWorldPoint = Camera.main.ScreenToWorldPoint(mousePos);
+
+		pointToCursor(mouseWorldPoint);
+		positionCamera(mouseWorldPoint);
+    }
+
     private void syncMovement()
     {
         syncTime += Time.deltaTime;
         rigidbody.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
+        transform.rotation = Quaternion.Slerp(transform.rotation, syncRotation, syncTime / syncDelay);
     }
 
 	/* RPC test function
@@ -69,12 +101,42 @@ public class TestPlayerScript : MonoBehaviour {
     }
 	*/
 
+	void pointToCursor(Vector3 mousePoint)
+	{
+		Quaternion targetRotation = Quaternion.LookRotation (mousePoint - transform.position);
+
+		targetRotation.z = 0;
+		targetRotation.x = 0;
+
+		float strength = Mathf.Min (playerRotateSpeed * Time.deltaTime, 1);
+
+		transform.rotation = Quaternion.Lerp (transform.rotation, targetRotation, strength);
+	}
+
+	void positionCamera(Vector3 mousePoint)
+	{
+		// Set vectors to same height
+		Vector3 cameraPosition = Camera.main.transform.position;
+		Vector3 playerPosition = new Vector3 (transform.position.x, cameraPosition.y, transform.position.z);
+		mousePoint.y = cameraPosition.y;
+
+		// Set new position to midpoint of vectors
+		Vector3 newPosition = ((mousePoint - playerPosition) * 0.5f) + playerPosition;
+
+		// Adjust height
+		newPosition.y = cameraBaseHeight + Vector3.Distance (playerPosition, mousePoint) * cameraHeightModifier;
+
+		// lerp to new position
+		Camera.main.transform.position = Vector3.Lerp (cameraPosition, newPosition, cameraMoveSpeed);
+	}
+
     // Overridden/Impelemented functions
 
     void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
     {
         Vector3 syncPosition = Vector3.zero;
         Vector3 syncVelocity = Vector3.zero;
+        syncRotation = Quaternion.identity;
 
         if (stream.isWriting)
         {
@@ -83,10 +145,15 @@ public class TestPlayerScript : MonoBehaviour {
 
             syncVelocity = rigidbody.velocity;
             stream.Serialize(ref syncVelocity);
+
+            syncRotation = transform.rotation;
+            stream.Serialize(ref syncRotation);
         }
         else
         {
             stream.Serialize(ref syncPosition);
+            stream.Serialize(ref syncVelocity);
+            stream.Serialize(ref syncRotation);
 
             syncTime = 0f;
             syncDelay = Time.time - lastSyncTime;

@@ -12,9 +12,9 @@ public class FollowMouse : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+
 	}
-	
+
 	// LateUpdate is called once per frame, but happens just before rendering (lowers lag by ~1 frame)
 
 	void LateUpdate ()
@@ -23,7 +23,6 @@ public class FollowMouse : MonoBehaviour {
 		var mousePos = Input.mousePosition;
 		mousePos.z = 15;
 		Vector3 mouseWorldPoint = Camera.main.ScreenToWorldPoint(mousePos);
-
 
 		pointToCursor(mouseWorldPoint);
 		positionCamera(mouseWorldPoint);

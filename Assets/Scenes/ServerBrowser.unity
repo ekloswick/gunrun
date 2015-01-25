@@ -809,8 +809,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 1128399523}
-  - 114: {fileID: 1128399524}
-  - 114: {fileID: 1128399521}
   - 148: {fileID: 1128399525}
   - 114: {fileID: 1128399522}
   m_Layer: 0
@@ -820,17 +818,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1128399521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1128399520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b83b15df7ff2b14e8df963fc6e3f4d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1128399522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,18 +847,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
---- !u!114 &1128399524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1128399520}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2e2abd0c7a75fc42ad7a2013093ab1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cubePrefab: {fileID: 100000, guid: a6030a0a65cd8ab40b54496a46e3f776, type: 2}
 --- !u!148 &1128399525
 NetworkView:
   m_ObjectHideFlags: 0

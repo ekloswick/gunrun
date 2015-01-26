@@ -34,7 +34,6 @@ public class FollowMouse : MonoBehaviour {
 		targetRotation.z = 0;
 		targetRotation.x = 0;
 		float strength = Mathf.Min (playerRotateSpeed * Time.deltaTime, 1);
-		Debug.Log (strength);
 		transform.rotation = Quaternion.Lerp (transform.rotation, targetRotation, strength);
 	}
 

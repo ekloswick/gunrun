@@ -16,7 +16,7 @@ public class Networking : MonoBehaviour {
 
     private string typeName = "TypeGunRun";
     private string gameName = "GunRunGameName";
-    private GameObject canvasUIObj;
+    
 
     private int portNumber;
 
@@ -29,9 +29,7 @@ public class Networking : MonoBehaviour {
     void Start()
     {
         //MasterServer.ipAddress = "127.0.0.1";
-
-        canvasUIObj = GameObject.FindGameObjectsWithTag("Canvas")[0];
-
+	
         serverListUIPrefabs = new ArrayList();
     }
 
@@ -47,18 +45,23 @@ public class Networking : MonoBehaviour {
             disconnectButton.interactable = true;
         }
 
-        // shows/hides server browser
+        /* shows/hides server browser
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (canvasUIObj.activeSelf == false)
+            if (menu == false)
             {
-                canvasUIObj.SetActive(true);
+                canvasNetwork.SetActive(true);
+				canvasGame.SetActive (false);
+				menu = true;
             }
             else
             {
-                canvasUIObj.SetActive(false);
+				canvasNetwork.SetActive(false);
+				canvasGame.SetActive (true);
+				menu = false;
             }
         }
+        */
     }
 
     // custom functions

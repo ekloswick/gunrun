@@ -17,29 +17,30 @@ public class gunScript : MonoBehaviour {
 	public AudioClip gunshotSound;
 	public AudioClip reloadSound;
 	public AudioClip dryfireSound;
-
-	// Use this for initialization
-	void Start () {
-		UICanvas = GameObject.FindGameObjectWithTag ("UIManager");
-		CanvasUIManager = UICanvas.GetComponent<UIManager>();
+	
+	void Start ()
+	{
+		CanvasUIManager = (UIManager) GameObject.FindGameObjectWithTag("UIManager").GetComponent(typeof(UIManager));
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetMouseButton (0))
-		{
-			if(!(firing || reloading))
+		if (!(CanvasUIManager.isInMenu ())) {
+			if (Input.GetMouseButton (0))
 			{
-				fire ();
-			}
-		} 
+				if (!(firing || reloading))
+				{
+						fire ();
+				}
+			} 
 
-		if (Input.GetKey ("r"))
-		{
-			if(!(firing || reloading))
+			if (Input.GetKey ("r"))
 			{
-				reload ();
+				if (!(firing || reloading))
+				{
+					reload ();
+				}
 			}
 		}
 	}
@@ -51,7 +52,7 @@ public class gunScript : MonoBehaviour {
 			shootBullet();
 			AudioSource.PlayClipAtPoint(gunshotSound, transform.position);
 			currentAmmo--;
-			//CanvasUIManager.GetComponent<UIManager>().updateAmmo(currentAmmo);
+			CanvasUIManager.updateAmmo(currentAmmo);
 			StartCoroutine(fireCooldown());
 		}
 		else
@@ -75,7 +76,7 @@ public class gunScript : MonoBehaviour {
 
 	void reload() {
 		reloading = true;
-		//CanvasUIManager.GetComponent<UIManager>().reloadAnimate();
+		CanvasUIManager.reloadAnimate();
 		AudioSource.PlayClipAtPoint(reloadSound, transform.position);
 		StartCoroutine(reloadCooldown());
 	}
@@ -84,7 +85,7 @@ public class gunScript : MonoBehaviour {
 	{
 		yield return new WaitForSeconds(reloadSpeed);
 		currentAmmo = maxAmmo;
-		//CanvasUIManager.GetComponent<UIManager>().updateAmmo(currentAmmo);
+		CanvasUIManager.updateAmmo(currentAmmo);
 		reloading = false;
 	}
 

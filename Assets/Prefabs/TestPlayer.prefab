@@ -14,6 +14,8 @@ GameObject:
   - 114: {fileID: 11400000}
   - 148: {fileID: 14800000}
   - 54: {fileID: 5400000}
+  - 114: {fileID: 11400002}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: TestPlayer
   m_TagString: Test
@@ -104,6 +106,43 @@ MonoBehaviour:
   hitpoints: 10
   playerRotateSpeed: 10
   cameraMoveSpeed: .100000001
+  cameraHeightModifier: .5
+  cameraBaseHeight: 6
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87c994bc6e7b3ff448efeab3fd1b2e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxAmmo: 16
+  currentAmmo: 16
+  fireRate: .100000001
+  reloadSpeed: 3
+  UICanvas: {fileID: 0}
+  CanvasUIManager: {fileID: 0}
+  reloading: 0
+  firing: 0
+  gunshotSound: {fileID: 8300000, guid: 1b12ab999944a254fbfd85b825aa6bbd, type: 3}
+  reloadSound: {fileID: 8300000, guid: a3d2322aba10e4e4d93bd84a08af47f9, type: 3}
+  dryfireSound: {fileID: 8300000, guid: 0fc43cd1a95c8684aab4c89299b838a7, type: 3}
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bb90abfd3ac4184094d252e4450b093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRotateSpeed: 10
+  cameraMoveSpeed: .00999999978
   cameraHeightModifier: .5
   cameraBaseHeight: 6
 --- !u!148 &14800000

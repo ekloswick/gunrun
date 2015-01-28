@@ -7,26 +7,25 @@ public class gunScript : MonoBehaviour {
 	public int currentAmmo = 16;
 	public float fireRate = 0.1f;
 	public float reloadSpeed = 3.0f;
-	// public float bulletSpeed = 30f;
 	public float gunRightOffset = 0.5f;
-
+	
 	public GameObject UICanvas;
 	public UIManager CanvasUIManager;
-
+	
 	public bool reloading = false;
 	public bool firing = false;
-
+	
 	public AudioClip gunshotSound;
 	public AudioClip reloadSound;
 	public AudioClip dryfireSound;
-
-	public GameObject smokeObjectPrefab;
-
+	
+	public GameObject bulletTracerPrefab;
+	
 	void Start ()
 	{
 		CanvasUIManager = (UIManager) GameObject.FindGameObjectWithTag("UIManager").GetComponent(typeof(UIManager));
 	}
-
+	
 	// Update is called once per frame
 	void Update ()
 	{
@@ -38,7 +37,7 @@ public class gunScript : MonoBehaviour {
 					fire ();
 				}
 			}
-
+			
 			if (Input.GetKey ("r"))
 			{
 				if (!(firing || reloading))
@@ -48,7 +47,7 @@ public class gunScript : MonoBehaviour {
 			}
 		}
 	}
-
+	
 	void fire()
 	{
 		if (currentAmmo > 0)
@@ -67,19 +66,14 @@ public class gunScript : MonoBehaviour {
 			StartCoroutine(fireCooldown());
 		}
 	}
-
+	
 	void shootBullet()
 	{
 		// instantiate bullet prefab
-		GameObject bulletSmoke = Network.Instantiate(smokeObjectPrefab, transform.position + transform.right * gunRightOffset, transform.rotation, 0) as GameObject;
-		
-		// ignore collision with player and give it velocity in the players forward direction
-		// Physics.IgnoreCollision(bulletSmoke.collider, transform.collider);
-		// bulletSmoke.transform.forward = transform.forward;
-		// bulletSmoke.rigidbody.AddForce(bulletSpeed * transform.forward, ForceMode.VelocityChange);
+		GameObject tracerBullet = Network.Instantiate(bulletTracerPrefab, transform.position + transform.right * gunRightOffset, transform.rotation, 0) as GameObject;
 		
 		// auto destroy bullet
-		Destroy(bulletSmoke, 1);
+		Destroy(tracerBullet, 1);
 		
 		// raycast for hit collision
 		RaycastHit hitInfo;
@@ -98,7 +92,7 @@ public class gunScript : MonoBehaviour {
 		yield return new WaitForSeconds(fireRate);
 		firing = false;
 	}
-
+	
 	void reload()
 	{
 		reloading = true;
@@ -106,7 +100,7 @@ public class gunScript : MonoBehaviour {
 		AudioSource.PlayClipAtPoint(reloadSound, transform.position);
 		StartCoroutine(reloadCooldown());
 	}
-
+	
 	IEnumerator reloadCooldown()
 	{
 		yield return new WaitForSeconds(reloadSpeed);
@@ -114,5 +108,5 @@ public class gunScript : MonoBehaviour {
 		CanvasUIManager.updateAmmo(currentAmmo);
 		reloading = false;
 	}
-
+	
 }

@@ -7,6 +7,8 @@ public class gunScript : MonoBehaviour {
 	public int currentAmmo = 16;
 	public float fireRate = 0.1f;
 	public float reloadSpeed = 3.0f;
+	// public float bulletSpeed = 30f;
+	public float gunRightOffset = 0.5f;
 
 	public GameObject UICanvas;
 	public UIManager CanvasUIManager;

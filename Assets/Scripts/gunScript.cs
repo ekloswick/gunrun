@@ -4,9 +4,13 @@ using System.Collections;
 public class gunScript : MonoBehaviour {
 	
 	public int maxAmmo = 16;
+	public int maxThrowables = 3;
 	public int currentAmmo = 16;
+	public int currentThrowables = 3;
 	public float fireRate = 0.1f;
-	public float reloadSpeed = 3.0f;
+	public float reloadSpeed = 2.6f;
+	public float throwSpeed = 8.0f;
+	public float throwRate = 1.5f;
 	public float gunRightOffset = 0.5f;
 	
 	public GameObject UICanvas;
@@ -14,16 +18,21 @@ public class gunScript : MonoBehaviour {
 	
 	public bool reloading = false;
 	public bool firing = false;
+	public bool throwing = false;
 	
 	public AudioClip gunshotSound;
 	public AudioClip reloadSound;
 	public AudioClip dryfireSound;
+	public AudioClip throwSound;
 	
 	public GameObject bulletTracerPrefab;
+	public GameObject throwablePrefab;
 	
 	void Start ()
 	{
 		CanvasUIManager = (UIManager) GameObject.FindGameObjectWithTag("UIManager").GetComponent(typeof(UIManager));
+		CanvasUIManager.updateThrowables(currentThrowables);
+		CanvasUIManager.updateAmmo(currentAmmo);
 	}
 	
 	// Update is called once per frame
@@ -34,7 +43,7 @@ public class gunScript : MonoBehaviour {
 			{
 				if (!(firing || reloading))
 				{
-					fire ();
+					fireProjectile ();
 				}
 			}
 			
@@ -45,10 +54,18 @@ public class gunScript : MonoBehaviour {
 					reload ();
 				}
 			}
+
+			if (Input.GetKey ("f"))
+			{
+				if (!(throwing || reloading))
+				{
+					throwProjectile ();
+				}
+			}
 		}
 	}
 	
-	void fire()
+	void fireProjectile()
 	{
 		if (currentAmmo > 0)
 		{
@@ -86,11 +103,41 @@ public class gunScript : MonoBehaviour {
 			}
 		}
 	}
-	
+
 	IEnumerator fireCooldown()
 	{
 		yield return new WaitForSeconds(fireRate);
 		firing = false;
+	}
+
+	void throwProjectile()
+	{
+		if (currentThrowables > 0)
+		{
+			throwing = true;
+			shootThrowable();
+			AudioSource.PlayClipAtPoint(throwSound, transform.position);
+			currentThrowables--;
+			CanvasUIManager.updateThrowables(currentThrowables);
+			StartCoroutine(throwCooldown());
+		}
+	}
+
+	void shootThrowable() {
+		// instantiate bullet prefab
+		GameObject throwable = Network.Instantiate(throwablePrefab, transform.position + transform.right * gunRightOffset, transform.rotation, 0) as GameObject;
+		
+		//ignore collision with player and give it velocity in the players forward direction
+		Physics.IgnoreCollision(throwable.collider, transform.collider);
+		throwable.transform.forward = transform.forward;
+		throwable.rigidbody.AddForce(throwSpeed/2 * throwable.transform.forward, ForceMode.VelocityChange);
+		throwable.rigidbody.AddForce(throwSpeed/2 * throwable.transform.up, ForceMode.VelocityChange);
+	}
+
+	IEnumerator throwCooldown()
+	{
+		yield return new WaitForSeconds(throwRate);
+		throwing = false;
 	}
 	
 	void reload()

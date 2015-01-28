@@ -4,22 +4,29 @@ using System.Collections;
 
 public class UIManager : MonoBehaviour {
 	
+	public GameObject ammoCount;
 	public GameObject ammoDisplay;
-	public GameObject bulletDisplay;
+	public GameObject throwableCount;
+	public GameObject throwableDisplay;
+
 	public GameObject HitpointDisplay;
 	public GameObject canvasNetwork;
 	public GameObject canvasGame;
 
-	private Text ammoboxText;
-	private Image ammoboxBullets;
+	private Text ammoText;
+	private Image ammoImage;
+	private Text throwableText;
+	private Image throwableImage;
 	private bool menu = true;
 
 	// Use this for initialization
 	void Start ()
 	{
 		canvasGame.SetActive (false);
-		ammoboxText = (Text) ammoDisplay.GetComponent(typeof(Text));
-		ammoboxBullets = (Image) bulletDisplay.GetComponent(typeof(Image));
+		ammoText = (Text) ammoCount.GetComponent(typeof(Text));
+		ammoImage = (Image) ammoDisplay.GetComponent(typeof(Image));
+		throwableText = (Text) throwableCount.GetComponent(typeof(Text));
+		throwableImage = (Image) throwableDisplay.GetComponent(typeof(Image));
 	}
 	
 	// Update is called once per frame
@@ -45,8 +52,14 @@ public class UIManager : MonoBehaviour {
 
 	public void updateAmmo(int ammoCount)
 	{
-		ammoboxText.text = ammoCount.ToString();
-		ammoboxBullets.rectTransform.sizeDelta = new Vector2(ammoCount * 16, 64);
+		ammoText.text = ammoCount.ToString();
+		ammoImage.rectTransform.sizeDelta = new Vector2(ammoCount * 16, 64);
+	}
+
+	public void updateThrowables(int throwableCount)
+	{
+		throwableText.text = throwableCount.ToString();
+		throwableImage.rectTransform.sizeDelta = new Vector2(throwableCount * 32, 64);
 	}
 
 	public void reloadAnimate()

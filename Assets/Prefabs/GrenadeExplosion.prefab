@@ -45,7 +45,7 @@ MonoBehaviour:
   duration: 1
   detail: 1
   upwardsBias: 0
-  destroyTime: 4
+  destroyTime: 7
   useWorldSpace: 1
   direction: {x: 0, y: 0, z: 0}
   fireballAMaterial: {fileID: 2100000, guid: 3049dffabc5225d40b27675901977fdd, type: 2}

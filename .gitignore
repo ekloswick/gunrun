@@ -22,3 +22,8 @@ ExportedObj/
 *.unityproj
 *.booproj
 Assets/UnityVS/
+
+# ============= #
+# Miscellaneous #
+# ============= #
+Assets/Resources/

@@ -1,14 +1,12 @@
- using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class gunScript : MonoBehaviour {
-
+	
 	public int maxAmmo = 16;
 	public int currentAmmo = 16;
 	public float fireRate = 0.1f;
 	public float reloadSpeed = 3.0f;
-	public float bulletSpeed = 30f;
-	public float gunRightOffset = 0.5f;
 
 	public GameObject UICanvas;
 	public UIManager CanvasUIManager;
@@ -74,9 +72,9 @@ public class gunScript : MonoBehaviour {
 		GameObject bulletSmoke = Network.Instantiate(smokeObjectPrefab, transform.position + transform.right * gunRightOffset, transform.rotation, 0) as GameObject;
 		
 		// ignore collision with player and give it velocity in the players forward direction
-		Physics.IgnoreCollision(bulletSmoke.collider, transform.collider);
-		bulletSmoke.transform.forward = transform.forward;
-		bulletSmoke.rigidbody.AddForce(bulletSpeed * transform.forward, ForceMode.VelocityChange);
+		// Physics.IgnoreCollision(bulletSmoke.collider, transform.collider);
+		// bulletSmoke.transform.forward = transform.forward;
+		// bulletSmoke.rigidbody.AddForce(bulletSpeed * transform.forward, ForceMode.VelocityChange);
 		
 		// auto destroy bullet
 		Destroy(bulletSmoke, 1);

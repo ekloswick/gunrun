@@ -57,7 +57,7 @@ public class gunScript : MonoBehaviour {
 
 			if (Input.GetKey ("f"))
 			{
-				if (!(throwing || reloading))
+				if (!(throwing))
 				{
 					throwProjectile ();
 				}

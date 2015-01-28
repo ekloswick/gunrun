@@ -606,7 +606,8 @@ MonoBehaviour:
   ammoDisplay: {fileID: 1038160593}
   throwableCount: {fileID: 468039960}
   throwableDisplay: {fileID: 194232347}
-  HitpointDisplay: {fileID: 0}
+  hitpointCount: {fileID: 518304227}
+  hitpointDisplay: {fileID: 559802162}
   canvasNetwork: {fileID: 2091970756}
   canvasGame: {fileID: 1885218685}
 --- !u!4 &534689355
@@ -715,8 +716,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -38.0000305, y: -63.677063}
-  m_SizeDelta: {x: 215, y: 458.97998}
+  m_AnchoredPosition: {x: -20, y: -50}
+  m_SizeDelta: {x: 240, y: 420}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &584735413
 MonoBehaviour:
@@ -1384,7 +1385,7 @@ MonoBehaviour:
   serverListEntryPrefab: {fileID: 100008, guid: 7cba49f994bd69045bd290e169ee23c9,
     type: 2}
   serverListPanel: {fileID: 1602432663}
-  playerPrefab: {fileID: 100002, guid: 34a001a75855d8a48a2ab30525c83883, type: 2}
+  playerPrefab: {fileID: 100008, guid: 34a001a75855d8a48a2ab30525c83883, type: 2}
 --- !u!4 &1128399523
 Transform:
   m_ObjectHideFlags: 0
@@ -1695,8 +1696,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -247.199997, y: 51.7229156}
-  m_SizeDelta: {x: 186, y: 228.5}
+  m_AnchoredPosition: {x: -244, y: 50}
+  m_SizeDelta: {x: 180, y: 220}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1343170221
 MonoBehaviour:

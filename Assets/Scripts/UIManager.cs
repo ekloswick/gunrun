@@ -8,8 +8,8 @@ public class UIManager : MonoBehaviour {
 	public GameObject ammoDisplay;
 	public GameObject throwableCount;
 	public GameObject throwableDisplay;
-
-	public GameObject HitpointDisplay;
+	public GameObject hitpointCount;
+	public GameObject hitpointDisplay;
 	public GameObject canvasNetwork;
 	public GameObject canvasGame;
 
@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour {
 	private Image ammoImage;
 	private Text throwableText;
 	private Image throwableImage;
+	private Text hitpointText;
+	private Image hitpointImage;
 	private bool menu = true;
 
 	// Use this for initialization
@@ -27,6 +29,8 @@ public class UIManager : MonoBehaviour {
 		ammoImage = (Image) ammoDisplay.GetComponent(typeof(Image));
 		throwableText = (Text) throwableCount.GetComponent(typeof(Text));
 		throwableImage = (Image) throwableDisplay.GetComponent(typeof(Image));
+		hitpointText = (Text) hitpointCount.GetComponent(typeof(Text));
+		hitpointImage = (Image) hitpointDisplay.GetComponent(typeof(Image));
 	}
 	
 	// Update is called once per frame
@@ -60,6 +64,12 @@ public class UIManager : MonoBehaviour {
 	{
 		throwableText.text = throwableCount.ToString();
 		throwableImage.rectTransform.sizeDelta = new Vector2(throwableCount * 32, 64);
+	}
+
+	public void updateHitpoints(int hitpointCount)
+	{
+		hitpointText.text = hitpointCount.ToString();
+		hitpointImage.rectTransform.sizeDelta = new Vector2(hitpointCount * 16, 64);
 	}
 
 	public void reloadAnimate()

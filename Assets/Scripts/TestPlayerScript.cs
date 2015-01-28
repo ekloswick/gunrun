@@ -25,11 +25,16 @@ public class TestPlayerScript : MonoBehaviour {
     //private Quaternion syncEndRotation = Quaternion.identity;
 	private Color colorHit = Color.red;
 
+	// UI variables
+	private GameObject UICanvas;
+	private UIManager CanvasUIManager;
 
 	// Use this for initialization
 	void Start ()
 	{
 		ChangeColorTo(new Vector3(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f)));
+		CanvasUIManager = (UIManager) GameObject.FindGameObjectWithTag("UIManager").GetComponent(typeof(UIManager));
+		CanvasUIManager.updateHitpoints(hitpoints);
 	}
 
     void Update()
@@ -174,6 +179,7 @@ public class TestPlayerScript : MonoBehaviour {
 	void triggerHit(int damage)
 	{
 		hitpoints -= damage;
+		CanvasUIManager.updateHitpoints(hitpoints);
 		renderer.material.color = Color.Lerp(colorHit, playerColor, 0.5f);
 
 		if (networkView.isMine)

@@ -12,8 +12,7 @@ public class gunScript : MonoBehaviour {
 	public float throwSpeed = 8.0f;
 	public float throwRate = 1.5f;
 	public float gunRightOffset = 0.5f;
-	
-	public GameObject UICanvas;
+
 	public UIManager CanvasUIManager;
 	
 	public bool reloading = false;
@@ -38,7 +37,7 @@ public class gunScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
 	{
-		if (!(CanvasUIManager.isInMenu ())) {
+		if (CanvasUIManager.getUIMode() == 1) {
 			if (Input.GetMouseButton (0))
 			{
 				if (!(firing || reloading))

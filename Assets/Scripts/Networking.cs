@@ -24,12 +24,14 @@ public class Networking : MonoBehaviour {
     private ArrayList serverListUIPrefabs;
     private int playerCount;
 
+	public UIManager CanvasUIManager;
+
     // default Unity functions
 
     void Start()
     {
         //MasterServer.ipAddress = "127.0.0.1";
-	
+		CanvasUIManager = (UIManager) GameObject.FindGameObjectWithTag("UIManager").GetComponent(typeof(UIManager));
         serverListUIPrefabs = new ArrayList();
     }
 
@@ -44,24 +46,6 @@ public class Networking : MonoBehaviour {
         {
             disconnectButton.interactable = true;
         }
-
-        /* shows/hides server browser
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (menu == false)
-            {
-                canvasNetwork.SetActive(true);
-				canvasGame.SetActive (false);
-				menu = true;
-            }
-            else
-            {
-				canvasNetwork.SetActive(false);
-				canvasGame.SetActive (true);
-				menu = false;
-            }
-        }
-        */
     }
 
     // custom functions
@@ -104,14 +88,16 @@ public class Networking : MonoBehaviour {
     public void spawnPlayer()
     {
         Network.Instantiate(playerPrefab, new Vector3(0f, 3f, 0f), Quaternion.identity, 0);
-    }
-
+		CanvasUIManager.setUIMode(1);
+	}
+	
     // Overridden/Implemented functions
 
     void OnServerInitialized()
     {
         Application.LoadLevelAdditive("TestFloor");
-        spawnPlayer();
+        CanvasUIManager.setUIMode (2);
+        // spawnPlayer();
     }
 
     void OnConnectedToServer()

@@ -602,14 +602,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4311c150682e96344930d24ce349528f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvasBrowser: {fileID: 2091970756}
+  canvasGame: {fileID: 1885218685}
+  canvasServer: {fileID: 893049356}
+  UIMode: 1
   ammoCount: {fileID: 1275594056}
   ammoDisplay: {fileID: 1038160593}
   throwableCount: {fileID: 468039960}
   throwableDisplay: {fileID: 194232347}
   hitpointCount: {fileID: 518304227}
   hitpointDisplay: {fileID: 559802162}
-  canvasNetwork: {fileID: 2091970756}
-  canvasGame: {fileID: 1885218685}
 --- !u!4 &534689355
 Transform:
   m_ObjectHideFlags: 0
@@ -981,6 +983,7 @@ RectTransform:
   m_Children:
   - {fileID: 2091970757}
   - {fileID: 1885218686}
+  - {fileID: 893049357}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
@@ -1175,6 +1178,39 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 892472959}
+--- !u!1 &893049356
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 893049357}
+  m_Layer: 5
+  m_Name: ServerView
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &893049357
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 893049356}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1945301232}
+  m_Father: {fileID: 821936227}
+  m_RootOrder: 2
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: 0, y: 1.52587891e-05}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: .5, y: .5}
 --- !u!1 &911738229
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,6 +1422,7 @@ MonoBehaviour:
     type: 2}
   serverListPanel: {fileID: 1602432663}
   playerPrefab: {fileID: 100008, guid: 34a001a75855d8a48a2ab30525c83883, type: 2}
+  CanvasUIManager: {fileID: 0}
 --- !u!4 &1128399523
 Transform:
   m_ObjectHideFlags: 0
@@ -1878,7 +1915,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1573170967}
   m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106829}
-  m_LocalPosition: {x: 0, y: 15, z: 0}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2045,6 +2082,53 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -1.52587891e-05}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: .5, y: .5}
+--- !u!1 &1945301231
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 224: {fileID: 1945301232}
+  - 114: {fileID: 1945301233}
+  m_Layer: 5
+  m_Name: Console
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1945301232
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945301231}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 893049357}
+  m_RootOrder: 0
+  m_AnchorMin: {x: .5, y: .5}
+  m_AnchorMax: {x: .5, y: .5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: .5, y: .5}
+--- !u!114 &1945301233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1945301231}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c1ab42a3205804faf379e316e7672b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toggleKey: 96
+  show: 0
+  collapse: 0
 --- !u!1 &1986733047
 GameObject:
   m_ObjectHideFlags: 0
@@ -2120,7 +2204,7 @@ GameObject:
   m_Component:
   - 224: {fileID: 2091970757}
   m_Layer: 5
-  m_Name: NetworkView
+  m_Name: BrowserView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

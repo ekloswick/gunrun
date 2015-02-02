@@ -11,7 +11,7 @@ GameObject:
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300000}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Deadly Gun Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,7 +28,7 @@ GameObject:
   - 33: {fileID: 3300002}
   - 23: {fileID: 2300002}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Cool Barrel Mount
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ GameObject:
   - 33: {fileID: 3300004}
   - 23: {fileID: 2300004}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Hi-Tech Drum Mag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -62,7 +62,7 @@ GameObject:
   - 33: {fileID: 3300006}
   - 23: {fileID: 2300006}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: Rad Gun Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
